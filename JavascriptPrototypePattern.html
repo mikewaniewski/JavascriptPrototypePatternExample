@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script>
+        window.onload = function () {
+//            Calculator.prototype.add = function (x, y) {
+//                var val = x - y;
+//                this.eqCtl.innerHTML = val;
+//            };
+            var c = new myNS.Calculator('eq');
+            c.add(2, 2);
+        };
+
+        var myNS = myNS || {};
+
+        //calculator.js
+        myNS.Calculator = function (eq) {
+            this.eqCtl = document.getElementById(eq);
+        };
+
+        myNS.Calculator.prototype = {
+            add: function (x, y) {
+                var val = x + y;
+                this.eqCtl.innerHTML = val;
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="eq"></div>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script>
+        var myNS = myNS || {}; //this line of code checks if myNS namespace exists - if not it creates an empty object representing this namespace
+		//using namespaces in javascript prevents us from naming conflicts, when our code is added to unknown apps.
+
+
+        $(function () {
+            $('#btnAdd').click(function () {
+                
+				var calc = new myNS.Calculator('myDiv');
+				calc.add($('#component1').val(), $('#component2').val());
+
+            });
+		});
+        
+        myNS.Calculator = function (resultDiv) {
+            this.resultDiv = $('#' + resultDiv);
+        };
+
+        myNS.Calculator.prototype = {
+            add: function (x, y) {
+                var sum = parseInt(x) + parseInt(y);
+                 
+				$(this.resultDiv).html(sum);
+            }
+        };
+
+    </script>
+</head>
+<body>
+
+    Calculator:<br />
+    1st component: <input type="number" id="component1" value="3" /><br />
+    2nd component: <input type="number" id="component2" value="2" />
+    <br /><button id="btnAdd" >Add!</button>
+    <br />
+    <br />
+    <div id="myDiv"></div>
+</body>
+</html>
